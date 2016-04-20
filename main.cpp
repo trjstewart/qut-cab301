@@ -44,13 +44,13 @@ int main() {
 void MultiTestSortingAlgorithm(int tests[][3], int numTests) {
     for (int i = 0; i < numTests; i++) {
         TestSortingAlgorithm(tests[i][0], tests[i][1], tests[i][2]);
-        cout << "Completed Test Set: " << tests[i][0] << " through " << tests[i][1] << " in increments of " << tests[i][2] << "." << endl << endl;
     }
 }
 
 void TestSortingAlgorithm(int setMin, int setMax, int setInc) {
     cout << "Starting Test Set: " << setMin << " through " << setMax << " in increments of " << setInc << "." << endl;
 
+    unsigned long long operations = 0;
     clock_t timer;
 
     ofstream outputCSV(resultsPath + to_string(setMin) + "x" + to_string(setMax) + "x" + to_string(setInc) + ".csv");
@@ -60,13 +60,14 @@ void TestSortingAlgorithm(int setMin, int setMax, int setInc) {
         unsigned int *randomArray = populateRandomArray(i);
 
         timer = clock();
-        unsigned int operations = BubbleSort(randomArray, i);
+        operations = BubbleSort(randomArray, i);
         timer = clock() - timer;
 
         outputCSV << i << "," << ((float)timer) / CLOCKS_PER_SEC << "," << operations << endl;
     }
 
     outputCSV.close();
+    cout << "Completed Test Set with " << operations << " operations." << endl << endl;
 }
 
 unsigned int *populateRandomArray(const int size) {
